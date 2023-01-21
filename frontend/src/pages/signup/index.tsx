@@ -1,3 +1,5 @@
+import { FormEvent, useContext, useState } from "react";
+
 import Head from "next/head";
 import Image from "next/image";
 import styles from "../../../styles/home.module.scss";
@@ -10,6 +12,10 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 export default function SignUp() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+
   return (
     <>
       <Head>
@@ -21,7 +27,12 @@ export default function SignUp() {
         <div className={styles.login}>
           <h1>Crie sua conta</h1>
           <form>
-            <Input placeholder="Digite seu nome" type="text" />
+            <Input
+              placeholder="Digite seu nome"
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
 
             <Input placeholder="Digite seu email" type="text" />
 
