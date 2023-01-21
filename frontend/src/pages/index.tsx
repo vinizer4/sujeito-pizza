@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/Button";
 import Link from "next/link";
 
 import { AuthContext } from "@/contexts/AuthContext";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -22,12 +23,24 @@ export default function Home() {
 
   async function handleLogin(event: FormEvent) {
     event.preventDefault();
+
+    if (email === "" || password === "") {
+      toast.error("Preencha os dados!", {
+        theme: "colored",
+      });
+      return;
+    }
+
+    setLoading(true);
+
     let data = {
       email,
       password,
     };
 
     await signIn(data);
+
+    setLoading(false);
   }
 
   return (
@@ -41,8 +54,8 @@ export default function Home() {
         <div className={styles.login}>
           <form onSubmit={handleLogin}>
             <Input
-              placeholder="Digite seu nome"
-              type="text"
+              placeholder="Digite seu email"
+              type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -59,8 +72,8 @@ export default function Home() {
             </Button>
           </form>
 
-          <Link href="/signup" legacyBehavior>
-            <a className={styles.text}>Nao possui uma conta? Cadastre-se</a>
+          <Link href="/" legacyBehavior>
+            <a className={styles.text}>Não possui uma conta? Cadastre-se</a>
           </Link>
         </div>
       </div>
