@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   outline: 0;
-  box-sizing: 0;
+  box-sizing: border-box;
 }
 
 :root {
@@ -35,17 +35,17 @@ input,
 textarea,
 select,
 button {
-  font: 400 1rem sans-serif;
+  font: 400 1rem sans-serif; // 1rem = 16px
 }
 
 @media (max-width: 720px) {
   html {
-    font-size: 87.5%; // vai gerar 14px
+    font-size: 87.5%; // vai gerar 14px;
   }
 }
 
-@media (max-width: 1080) {
+@media (max-width: 1080px) {
   html {
-    font-size: 93.75%; // vai gerar 15px
+    font-size: 93.75%; // vai gerar 15px;
   }
 }
