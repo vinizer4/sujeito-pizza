@@ -13,6 +13,8 @@ import Link from "next/link";
 
 import { AuthContext } from "@/contexts/AuthContext";
 import { toast } from "react-toastify";
+import { GetServerSideProps } from "next";
+import { canSSRGuest } from "@/utils/canSSRGuest";
 
 export default function Home() {
   const [email, setEmail] = useState("");
@@ -80,3 +82,9 @@ export default function Home() {
     </>
   );
 }
+
+export const getServerSideProps = canSSRGuest(async (ctx) => {
+  return {
+    props: {},
+  };
+});
