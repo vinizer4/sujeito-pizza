@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { canSSRAuth } from "../../utils/canSSRAuth";
 import Head from "next/head";
 import styles from "./styles.module.scss";
@@ -46,7 +46,7 @@ export type OrderItemProps = {
 export default function Dashboard({ orders }: HomeProps) {
   const [orderList, setOrderList] = useState(orders || []);
 
-  const [modalItem, setModalItem] = useState<OrderItemProps[]>();
+  const [modalItem, setModalItem] = useState<OrderItemProps[]>([]);
   const [modalVisible, setModalVisible] = useState(false);
 
   function handleCloseModal() {
@@ -62,9 +62,40 @@ export default function Dashboard({ orders }: HomeProps) {
       },
     });
 
+    console.log(response.data);
+
     setModalItem(response.data);
-    setModalVisible(true);
   }
+
+  async function handleFinishItem(id: string) {
+    const apiClient = setupAPIClient();
+
+    const response = await apiClient.put("/order/finish", {
+      order_id: id,
+    });
+
+    console.log(response.data);
+
+    const responseOrders = await apiClient.get("/orders");
+
+    setOrderList(responseOrders.data);
+
+    setModalVisible(false);
+  }
+
+  async function handleRefreshOrders() {
+    const apiClient = setupAPIClient();
+
+    const response = await apiClient.get("/orders");
+
+    setOrderList(response.data);
+  }
+
+  useEffect(() => {
+    if (modalItem.length > 0) {
+      setModalVisible(true);
+    }
+  }, [modalItem]);
 
   Modal.setAppElement("#__next");
 
@@ -80,11 +111,20 @@ export default function Dashboard({ orders }: HomeProps) {
           <div className={styles.containerHeader}>
             <h1>Últimos pedidos</h1>
             <button>
-              <FiRefreshCcw size={25} color="#3fffa3" />
+              <FiRefreshCcw
+                size={25}
+                color="#3fffa3"
+                onClick={handleRefreshOrders}
+              />
             </button>
           </div>
 
           <article className={styles.listOreders}>
+            {orderList.length === 0 && (
+              <span className={styles.emptyList}>
+                Nenhum pedido foi encontrado...
+              </span>
+            )}
             {orderList.map((item) => (
               <section key={item.id} className={styles.orderItem}>
                 <button onClick={() => handleOpenModalView(item.id)}>
@@ -101,6 +141,7 @@ export default function Dashboard({ orders }: HomeProps) {
             isOpen={modalVisible}
             onRequestClose={handleCloseModal}
             order={modalItem}
+            handleFinishOrder={handleFinishItem}
           />
         )}
       </div>
@@ -112,7 +153,7 @@ export const getServerSideProps = canSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx);
 
   const response = await apiClient.get("/orders");
-  //console.log(response.data);
+  console.log(response.data);
 
   return {
     props: {
