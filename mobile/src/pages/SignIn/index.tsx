@@ -6,26 +6,26 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
+  ActivityIndicator,
 } from "react-native";
 import { AuthContext } from "../../contexts/AuthContext";
 
 export default function SignIn() {
-  const {user} = useContext(AuthContext)
+  const { signIn, loadingAuth } = useContext(AuthContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  function handleLogin() {
+  async function handleLogin() {
     if (email === "" || password === "") {
       return;
     }
 
-    console.log("Email digitado " + email);
+    await signIn({ email, password });
   }
 
   return (
     <View style={styles.container}>
       <Image style={styles.logo} source={require("../../assets/logo.png")} />
-      <Text>{user?.name}</Text>
 
       <View style={styles.inputContainer}>
         <TextInput
@@ -46,7 +46,11 @@ export default function SignIn() {
         />
 
         <TouchableOpacity style={styles.button} onPress={handleLogin}>
-          <Text style={styles.buttonText}>Acessar</Text>
+          {loadingAuth ? (
+            <ActivityIndicator size="large" color="#FFF" />
+          ) : (
+            <Text style={styles.buttonText}>Acessar</Text>
+          )}
         </TouchableOpacity>
       </View>
     </View>
