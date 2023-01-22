@@ -1,4 +1,4 @@
-import prismaCliente from "../../prisma";
+import prismaClient from "../../prisma";
 
 interface OrderRequest {
   order_id: string;
@@ -6,11 +6,13 @@ interface OrderRequest {
 
 class SendOrderService {
   async execute({ order_id }: OrderRequest) {
-    const order = await prismaCliente.order.update({
+    const order = await prismaClient.order.update({
       where: {
         id: order_id,
       },
-      data: { draft: false },
+      data: {
+        draft: false,
+      },
     });
 
     return order;

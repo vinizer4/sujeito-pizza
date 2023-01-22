@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import { CreateOrderService } from "../../services/order/CreateOrderService";
-import prismaCliente from "../../prisma";
 
 class CreateOrderController {
   async handle(req: Request, res: Response) {
@@ -8,7 +7,10 @@ class CreateOrderController {
 
     const createOrderService = new CreateOrderService();
 
-    const order = await createOrderService.execute({ table, name });
+    const order = await createOrderService.execute({
+      table,
+      name,
+    });
 
     return res.json(order);
   }
