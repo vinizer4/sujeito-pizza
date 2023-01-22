@@ -8,9 +8,9 @@ class AddItemController {
     const addItem = new AddItemService();
 
     const order = await addItem.execute({
-      order_id: order_id,
-      product_id: product_id,
-      amount: amount,
+      order_id,
+      product_id,
+      amount,
     });
 
     return res.json(order);

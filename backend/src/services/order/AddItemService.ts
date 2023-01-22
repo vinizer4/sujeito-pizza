@@ -1,4 +1,4 @@
-import prismaCliente from "../../prisma";
+import prismaClient from "../../prisma";
 
 interface ItemRequest {
   order_id: string;
@@ -8,11 +8,11 @@ interface ItemRequest {
 
 class AddItemService {
   async execute({ order_id, product_id, amount }: ItemRequest) {
-    const order = await prismaCliente.item.create({
+    const order = await prismaClient.item.create({
       data: {
         order_id: order_id,
         product_id: product_id,
-        amount: amount,
+        amount,
       },
     });
 

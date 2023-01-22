@@ -16,4 +16,4 @@ class ListByCategoryService {
   }
 }
 
-export default ListByCategoryService;
+export { ListByCategoryService };

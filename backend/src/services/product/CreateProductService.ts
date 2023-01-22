@@ -1,4 +1,4 @@
-import prismaCliente from "../../prisma";
+import prismaClient from "../../prisma";
 
 interface ProductRequest {
   name: string;
@@ -16,7 +16,7 @@ class CreateProductService {
     banner,
     category_id,
   }: ProductRequest) {
-    const product = await prismaCliente.product.create({
+    const product = await prismaClient.product.create({
       data: {
         name: name,
         price: price,
