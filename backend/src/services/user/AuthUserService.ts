@@ -1,50 +1,53 @@
-import prismaCliente from "../../prisma";
-import { compare } from "bcryptjs";
-import { sign } from "jsonwebtoken";
+ 
+  import prismaClient from "../../prisma";
+  import { compare } from 'bcryptjs'
+  import { sign } from 'jsonwebtoken'
 
-interface AuthRequest {
-  email: string;
-  password: string;
-}
+  interface AuthRequest {
+    email: string;
+    password: string;
+  }
 
-class AuthUserService {
-  async execute({ email, password }: AuthRequest) {
-    const user = await prismaCliente.user.findFirst({
-      where: {
-        email: email,
-      },
-    });
+  class AuthUserService {
+    async execute({ email, password }: AuthRequest) {
+       
+        //Verificar se o email existe.
+        const user = await prismaClient.user.findFirst({
+            where: {
+                email: email
+            }
+        })
+        if(!user){
+            throw new Error("User/password incorrect")
+        }
 
-    if (!user) {
-      throw new Error("User/password incorrect");
-    }
+        // Precisa verificar se a senha que ele mandou está correta.
+        const passwordMath = await compare(password, user.password)
+        
+        if(!passwordMath) {
+            throw new Error("User/password incorrect")
+        }
 
-    const passwordMatch = await compare(password, user.password);
+        // Se deu tudo certo vamos gerar o tokem para o usuário
+        const token = sign(
+            {
+                name: user.name,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                subject: user.id,
+                expiresIn: '30d'
+            }
+        )
 
-    if (!passwordMatch) {
-      throw new Error("User/password incorrect");
-    }
-
-    // gerar um token JWT e devolver os dados do usuario id, name e email
-    const token = sign(
-      {
+       return {
+        id: user.id,
         name: user.name,
         email: user.email,
-      },
-      process.env.JWT_SECRET!,
-      {
-        subject: user.id,
-        expiresIn: "30d",
-      }
-    );
-
-    return {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token: token,
-    };
+        token: token
+       }
+    }
   }
-}
 
-export { AuthUserService };
+  export { AuthUserService };

@@ -1,18 +1,20 @@
 import { Request, Response } from "express";
 import { RemoveItemService } from "../../services/order/RemoveItemService";
 
-class RemoveItemController {
-  async handle(req: Request, res: Response) {
-    const item_id = req.query.item_id as string;
 
-    const removeItemService = new RemoveItemService();
+   class RemoveItemController {
+    async handle(req: Request, res:Response) {
+      
+        const item_id = req.query.item_id as string;
 
-    const order = await removeItemService.execute({
-      item_id,
-    });
+        const removeItemService = new RemoveItemService;
 
-    return res.json(order);
-  }
-}
+        const order = await removeItemService.execute({
+            item_id
+        })
 
-export { RemoveItemController };
+        return res.json(order);
+    }
+   }
+
+   export { RemoveItemController }

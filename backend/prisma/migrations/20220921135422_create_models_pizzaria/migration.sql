@@ -41,8 +41,8 @@ CREATE TABLE "items" (
     "amount" INTEGER NOT NULL,
     "created_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "product_id" TEXT NOT NULL,
     "order_id" TEXT NOT NULL,
+    "product_id" TEXT NOT NULL,
 
     CONSTRAINT "items_pkey" PRIMARY KEY ("id")
 );
