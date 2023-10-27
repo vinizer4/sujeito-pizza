@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import { verify } from "jsonwebtoken";
+import { verify }                          from "jsonwebtoken";
+import {JWT_SECRET}                        from "../services/user/AuthUserService";
 
 interface PayLoad{
     sub: string;
@@ -24,7 +25,7 @@ interface PayLoad{
         //Validar esse token.
         const { sub } = verify(
             token,
-            process.env.JWT_SECRET
+            JWT_SECRET
            
         ) as PayLoad;
        //recuperar o id do tokem e colocar dentro de uma variável user.id dentro do req.

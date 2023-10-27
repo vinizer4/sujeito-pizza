@@ -8,6 +8,9 @@
     password: string;
   }
 
+  export const JWT_SECRET = "YjVlMmE5ZmYtNDNlZi00MzFhLTk2OTItOWEwYzE5YzM5MjI5";
+
+
   class AuthUserService {
     async execute({ email, password }: AuthRequest) {
        
@@ -34,7 +37,7 @@
                 name: user.name,
                 email: user.email
             },
-            process.env.JWT_SECRET,
+            JWT_SECRET,
             {
                 subject: user.id,
                 expiresIn: '30d'

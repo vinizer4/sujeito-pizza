@@ -7,7 +7,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgresql://admin:admin@localhost:54321/postgres"
 }
 
 //Criar uma migration yarn prisma migrate dev

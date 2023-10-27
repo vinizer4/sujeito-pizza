@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "engines": {
-    "node": "16.17.0"
+    "node": "18.15.0"
   },
   "scripts": {
     "start": "node src/server.ts",
@@ -16,6 +16,8 @@
     "@types/express": "^4.17.13",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/multer": "^1.4.7",
+    "@types/swagger-jsdoc": "^6.0.2",
+    "@types/swagger-ui-express": "^4.1.5",
     "ts-node-dev": "^2.0.0",
     "typescript": "^4.8.2"
   },
@@ -28,6 +30,8 @@
     "express-async-errors": "^3.1.1",
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.5-lts.1",
-    "prisma": "^4.3.1"
+    "prisma": "^4.3.1",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
   }
 }
